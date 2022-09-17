@@ -61,7 +61,7 @@ class CategoriesController extends Controller
     {
         $c = Category::findOrFail($id);
         if ($c->nonDeletable()) {
-            return $this->returnForbiden("Please delete ads related to this category first");
+            return $this->returnForbidden("Please delete ads related to this category first");
         }
         $c->delete();
         return CategoryResource::make($c);

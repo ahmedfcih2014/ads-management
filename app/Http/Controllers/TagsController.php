@@ -61,7 +61,7 @@ class TagsController extends Controller
     {
         $t = Tag::findOrFail($id);
         if ($t->nonDeleteable()) {
-            return $this->returnForbiden("Please delete ads related to this tag first");
+            return $this->returnForbidden("Please delete ads related to this tag first");
         }
         $t->delete();
         return TagResource::make($t);

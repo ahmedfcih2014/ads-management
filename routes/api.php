@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\TagsController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\AdsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,3 +28,5 @@ Route::resource('tags', TagsController::class)->only($crudMethods);
 
 Route::resource('categories', CategoriesController::class)->only($crudMethods);
 
+Route::get('ads', [AdsController::class, 'filter'])->name("ads.filter");
+Route::get('advertiser/{id}/ads', [AdsController::class, 'adsByAdvertiser'])->name("advertiser.ads");
