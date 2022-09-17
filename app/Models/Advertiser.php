@@ -14,4 +14,8 @@ class Advertiser extends Model
     public function ads() {
         return $this->hasMany(Ad::class, 'advertiser_id');
     }
+
+    public function tomorrowAds() {
+        return $this->ads()->where("start_date", now()->addDay()->format("Y-m-d"));
+    }
 }

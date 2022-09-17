@@ -24,7 +24,7 @@ class AdFactory extends Factory
         return [
             'advertiser_id' => 1,
             'type' => rand(0,1) == 0 ? 'free' : 'paid',
-            'title' => $this->faker->title,
+            'title' => $this->faker->text(5) .' '. $this->faker->text(5),
             'description' => $this->faker->text,
             'category_id' => 1,
             'start_date' => $this->faker->date
