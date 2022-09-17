@@ -60,7 +60,7 @@ class TagsController extends Controller
     public function destroy($id)
     {
         $t = Tag::findOrFail($id);
-        if ($t->ads->count() > 0) {
+        if ($t->nonDeleteable()) {
             return $this->returnForbiden("Please delete ads related to this tag first");
         }
         $t->delete();

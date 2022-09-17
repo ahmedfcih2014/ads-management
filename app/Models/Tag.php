@@ -21,4 +21,8 @@ class Tag extends Model
             'ad_id'
         );
     }
+
+    public function nonDeleteable() {
+        return $this->ads->count() > 0;
+    }
 }

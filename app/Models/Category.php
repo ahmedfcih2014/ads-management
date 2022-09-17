@@ -14,4 +14,8 @@ class Category extends Model
     public function ads() {
         return $this->hasMany(Ad::class, 'category_id');
     }
+
+    public function nonDeletable() {
+        return $this->ads->count() > 0;
+    }
 }

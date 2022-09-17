@@ -60,7 +60,7 @@ class CategoriesController extends Controller
     public function destroy($id)
     {
         $c = Category::findOrFail($id);
-        if ($c->ads->count() > 0) {
+        if ($c->nonDeletable()) {
             return $this->returnForbiden("Please delete ads related to this category first");
         }
         $c->delete();
