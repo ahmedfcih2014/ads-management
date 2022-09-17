@@ -61,11 +61,7 @@ class TagsController extends Controller
     {
         $t = Tag::findOrFail($id);
         if ($t->ads->count() > 0) {
-            return response(
-                [
-                    'message' => "Please delete ads related to this tag first"
-                ], Response::HTTP_FORBIDDEN
-            );
+            return $this->returnForbiden("Please delete ads related to this tag first");
         }
         $t->delete();
         return TagResource::make($t);

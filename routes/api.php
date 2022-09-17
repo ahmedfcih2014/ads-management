@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\TagsController;
+use App\Http\Controllers\CategoriesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,5 +21,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('tags', TagsController::class)
-    ->only(['index', 'store', 'show', 'update', 'destroy']);
+$crudMethods = ['index', 'store', 'show', 'update', 'destroy'];
+
+Route::resource('tags', TagsController::class)->only($crudMethods);
+
+Route::resource('categories', CategoriesController::class)->only($crudMethods);
+

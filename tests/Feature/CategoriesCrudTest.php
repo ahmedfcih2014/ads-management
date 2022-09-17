@@ -2,44 +2,43 @@
 
 namespace Tests\Feature;
 
-use App\Models\Ad;
-use App\Models\Tag;
+use App\Models\Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Http\Response;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Response;
 use Tests\TestCase;
 
-class TagsCrudTest extends TestCase
+class CategoriesCrudTest extends TestCase
 {
     use RefreshDatabase ,WithFaker ,DatabaseMigrations;
 
     /**
-     * @route-name tags.index
+     * @route-name categories.index
      * @return void
      */
-    public function test_can_list_tags_successfully()
+    public function test_can_list_categories_successfully()
     {
         // Fake Data
-        Tag::factory()->count(5)->create();
+        Category::factory()->count(5)->create();
         // Call API
-        $response = $this->get(route('tags.index'));
+        $response = $this->get(route('categories.index'));
         // Validate Response
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
-            'data' => [ ['id', 'name'] ]
+            'data' => [ ['id', 'name', 'ads_count'] ]
         ]);
     }
 
     /**
-     * @route-name tags.create
+     * @route-name categories.create
      * @return void
      */
-    public function test_can_create_tag_successfully()
+    public function test_can_create_category_successfully()
     {
         $reqPayload = ['name' => $this->faker->name];
 
-        $response = $this->post(route('tags.store'), $reqPayload);
+        $response = $this->post(route('categories.store'), $reqPayload);
 
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure([
@@ -48,15 +47,15 @@ class TagsCrudTest extends TestCase
     }
 
     /**
-     * @route-name tags.show
+     * @route-name categories.show
      * @return void
      */
-    public function test_can_show_tag_successfully()
+    public function test_can_show_category_successfully()
     {
         // Fake Data
-        $t = Tag::factory(1)->create()->first();
+        $c = Category::factory(1)->create()->first();
         // Call API
-        $response = $this->get(route('tags.show', ['tag' => $t->id]));
+        $response = $this->get(route('categories.show', ['category' => $c->id]));
 
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
@@ -65,17 +64,17 @@ class TagsCrudTest extends TestCase
     }
 
     /**
-     * @route-name tags.update
+     * @route-name categories.update
      * @return void
      */
-    public function test_can_update_tag_successfully()
+    public function test_can_update_category_successfully()
     {
         // Fake Data
-        $t = Tag::factory(1)->create()->first();
+        $c = Category::factory(1)->create()->first();
 
         $reqPayload = ['name' => $this->faker->name];
         // Call API
-        $response = $this->put(route('tags.update', ['tag' => $t->id]), $reqPayload);
+        $response = $this->put(route('categories.update', ['category' => $c->id]), $reqPayload);
 
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
@@ -84,16 +83,16 @@ class TagsCrudTest extends TestCase
     }
 
     /**
-     * @route-name tags.destroy
+     * @route-name categories.destroy
      * @return void
      */
-    public function test_can_destroy_tag_successfully()
+    public function test_can_destroy_category_successfully()
     {
         // Fake Data
-        $t = Tag::factory(1)->create()->first();
+        $c = Category::factory(1)->create()->first();
 
         // Call API
-        $response = $this->delete(route('tags.destroy', ['tag' => $t->id]));
+        $response = $this->delete(route('categories.destroy', ['category' => $c->id]));
 
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
