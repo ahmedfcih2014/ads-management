@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TagRequest;
 use App\Http\Resources\TagResource;
 use App\Models\Tag;
+use Illuminate\Http\Response;
 
 class TagsController extends Controller
 {
@@ -14,7 +15,7 @@ class TagsController extends Controller
      */
     public function index()
     {
-        return TagResource::collection(Tag::all());
+        return TagResource::collection(Tag::withCount('ads')->get());
     }
 
     /**
@@ -35,7 +36,7 @@ class TagsController extends Controller
      */
     public function show($id)
     {
-        return TagResource::make(Tag::findOrFail($id));
+        return TagResource::make(Tag::withCount('ads')->findOrFail($id));
     }
 
     /**
@@ -54,11 +55,18 @@ class TagsController extends Controller
     /**
      * Remove the specified resource from storage.
      * @param  int  $id
-     * @return TagResource
+     * @return TagResource | Response
      */
     public function destroy($id)
     {
         $t = Tag::findOrFail($id);
+        if ($t->ads->count() > 0) {
+            return response(
+                [
+                    'message' => "Please delete ads related to this tag first"
+                ], Response::HTTP_FORBIDDEN
+            );
+        }
         $t->delete();
         return TagResource::make($t);
     }

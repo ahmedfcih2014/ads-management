@@ -10,4 +10,15 @@ class Tag extends Model
     use HasFactory;
 
     protected $fillable = ['name'];
+
+    public function ads() {
+        return $this->hasManyThrough(
+            Ad::class,
+            AdTag::class,
+            'tag_id',
+            'id',
+            'id',
+            'ad_id'
+        );
+    }
 }

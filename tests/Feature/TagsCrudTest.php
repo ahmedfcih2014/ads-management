@@ -2,7 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Models\Ad;
 use App\Models\Tag;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\Response;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -10,7 +12,7 @@ use Tests\TestCase;
 
 class TagsCrudTest extends TestCase
 {
-    use RefreshDatabase ,WithFaker;
+    use RefreshDatabase ,WithFaker ,DatabaseMigrations;
 
     /**
      * @route-name tags.index
@@ -88,7 +90,7 @@ class TagsCrudTest extends TestCase
     public function test_can_destroy_tag_successfully()
     {
         // Fake Data
-        $t = Tag::factory(1)->create()->first();
+        $t = Tag::factory(1)->has(Ad::factory()->count(2))->create()->first();
 
         // Call API
         $response = $this->delete(route('tags.destroy', ['tag' => $t->id]));
